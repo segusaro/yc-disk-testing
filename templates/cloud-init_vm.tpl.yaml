@@ -1,0 +1,27 @@
+#cloud-config
+
+users:
+  - name: ${vm_admin_username}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh-authorized-keys:
+      - "${vm_ssh_key_pub}"
+
+packages:
+  - fio
+
+disk_setup:
+  /dev/${device}:
+    table_type: gpt
+    layout: true
+    overwrite: true
+
+fs_setup:
+  - label: fio
+    filesystem: ext4
+    device: /dev/${device}1
+    partition: auto
+
+runcmd:
+  - sudo mkdir -p /app
+  - sudo mount /dev/${device}1 /app
