@@ -25,7 +25,9 @@ output.write('G1', 'VM id', bold_format)
 output.write('H1', 'disk id (host id for local-ssd)', bold_format)
 
 row = 1
-for filename in sorted(os.listdir(fio_results_dir)):
+listdir = sorted(os.listdir(fio_results_dir))
+listdir.remove('.gitkeep')
+for filename in listdir:
     f = open(fio_results_dir+filename)
     rjson = f.read()
     rdata = json.loads(rjson)
